@@ -71,7 +71,7 @@ def Init_GUI():
     Content = tk.Frame(Window, height="1000", width="600")
     Content.pack(expand="true", fill="both")
 
-    # Displays the name of the game
+    # Displays a banner image
     Title = tk.Frame(Content)
     Title.place(relwidth="1", relheight="0.25")
 
@@ -393,10 +393,12 @@ def AI_Turn():
 
     global Singleplayer
 
-    if Singleplayer == True:
+    if Singleplayer == True: # This code only executes if singleplayer is enabled
 
         # Generating a random move for the computer to be used as a failsafe
         Computer_Move = random.randint(1,9)
+
+        print(Computer_Move)
 
         if Turn_Tracker.get() == "O's Turn": # Makes sure that it's the computer's turn
             # Blocks player's horizontal attempts to win on the first row
@@ -467,7 +469,7 @@ def AI_Turn():
             else:
                 Update_Grid(Computer_Move)
 
-### Checks if someone has won t Check_Win(),he game
+### Checks if someone has won the game
 def Check_Win():
 
     # All possible combinations of X winning
@@ -526,6 +528,7 @@ def Win_Message(arg):
 
     global Win_Box
 
+    # TODO: Add sound effects for the different players winning
     if arg == 1:
         messagebox.showinfo(message="X's Win!!!")
     elif arg == 2:
