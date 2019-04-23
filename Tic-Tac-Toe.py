@@ -415,7 +415,7 @@ def AI_Turn():
             elif Gameboard_Text[3].get() == "X" and Gameboard_Text[5].get() == "X" and Gameboard_Text[4].get() == "":
                 Update_Grid(5)
             elif Gameboard_Text[4].get() == "X" and Gameboard_Text[5].get() == "X" and Gameboard_Text[3].get() == "":
-                Update_Grid(3)
+                Update_Grid(4)
 
             # Blocks player's horizontal attempts to win on the third row
             elif Gameboard_Text[6].get() == "X" and Gameboard_Text[7].get() == "X" and Gameboard_Text[8].get() == "":
