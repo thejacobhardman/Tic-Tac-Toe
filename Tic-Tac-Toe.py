@@ -5,6 +5,7 @@
 # Python Version 3.7.3
 
 # Credit for punch sound effect to Mike Koenig: http://soundbible.com/995-Jab.html
+# Credit for cat scream sound effect to Ca9: http://soundbible.com/1509-Cat-Scream.html
 # All other sounds are in public domain
 
 # Importing pkgs
@@ -350,7 +351,7 @@ def Update_Grid(arg):
 ### Resets the gameboard and the turn tracker
 def Reset_Game():
 
-    # TODO: add a sound effect when the game is reset
+    sound.PlaySound("Gong.wav", sound.SND_ASYNC | sound.SND_NOSTOP)
 
     Turn_Tracker.set("X's Turn")
     for var in Gameboard_Text:
@@ -531,10 +532,13 @@ def Win_Message(arg):
     # TODO: Add sound effects for the different players winning
     if arg == 1:
         messagebox.showinfo(message="X's Win!!!")
+        sound.PlaySound("KungFuYell.wav", 1)
     elif arg == 2:
         messagebox.showinfo(message="O's Win!!!")
+        sound.PlaySound("KarateYell.wav", 1)
     elif arg == 3:
         messagebox.showinfo(message="Cat Wins!!!")
+        sound.PlaySound("Cat Scream.wav", 1)
 
     Win_Box = tk.Tk()
     Win_Box.title("GAME OVER")
@@ -564,6 +568,8 @@ Choose_Mode() # Prompts the user to choose whether to play in single player or m
 
 Init_GUI() # Initiating the static GUI elements
 Active_GUI() # Initiating the active GUI elements
+
+Mode.lift()
 
 sound.PlaySound("Gong.wav", sound.SND_ASYNC | sound.SND_NOSTOP)
 
