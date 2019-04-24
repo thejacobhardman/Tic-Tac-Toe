@@ -383,6 +383,8 @@ def Choose_Mode():
     command=lambda:Mode_Select(2))
     Multi_Button.place(relx="0.5", relwidth="0.5", relheight="1")
 
+    Window.lower() # Fixes a graphical bug where the Mode window was hidden by a partially created game Window
+
     Mode.mainloop()
 
 ### Logic that enables the AI if selected
@@ -559,13 +561,13 @@ def Win_Message(arg):
     global Win_Box
 
     if arg == 1:
-        sound.PlaySound("Kung Fu Yell.wav", 1)
+        sound.PlaySound("Kung-Fu-Yell.wav", 1)
         messagebox.showinfo(message="X's Win!!!")
     elif arg == 2:
-        sound.PlaySound("Karate Yell.wav", 1)
+        sound.PlaySound("Karate-Yell.wav", 1)
         messagebox.showinfo(message="O's Win!!!")
     elif arg == 3:
-        sound.PlaySound("Cat Scream.wav", 1)
+        sound.PlaySound("Cat-Scream.wav", 1)
         messagebox.showinfo(message="Cat Wins!!!")
 
     Win_Box = tk.Tk()
@@ -596,8 +598,6 @@ Choose_Mode() # Prompts the user to choose whether to play in single player or m
 
 Init_GUI() # Initiating the static GUI elements
 Active_GUI() # Initiating the active GUI elements
-
-Mode.lift()
 
 sound.PlaySound("Gong.wav", 1)
 
