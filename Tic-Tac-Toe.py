@@ -60,6 +60,9 @@ for var in Gameboard_Text:
 # Tracks whether the game is in singleplayer mode or in multiplayer mode
 Singleplayer = False
 
+# Tracks if the game is over
+Game_Over = False
+
 ########################################################## PROGRAM LOGIC ################################################################
 
 ### Initiating the GUI Framework and the static GUI elements
@@ -98,39 +101,39 @@ def Init_GUI():
 def Active_GUI():
 
     North_West = HoverButton(Gameboard, bg="dark red", bd="2", fg="black", activebackground="red", activeforeground="black",
-    font=Text_Font, textvariable=Gameboard_Text[0], command=lambda:[Update_Grid(1), Check_Win(), AI_Turn()])
+    font=Text_Font, textvariable=Gameboard_Text[0], command=lambda:[Update_Grid(1), Check_Win()])
     North_West.place(relwidth="0.333", relheight="0.33")
 
     North = HoverButton(Gameboard, bg="dark red", bd="2", fg="black", activebackground="red", activeforeground="black",
-    font=Text_Font, textvariable=Gameboard_Text[1], command=lambda:[Update_Grid(2), Check_Win(), AI_Turn()])
+    font=Text_Font, textvariable=Gameboard_Text[1], command=lambda:[Update_Grid(2), Check_Win()])
     North.place(relx="0.333", relwidth="0.333", relheight="0.33")
 
     North_East = HoverButton(Gameboard, bg="dark red", bd="2", fg="black", activebackground="red", activeforeground="black",
-    font=Text_Font, textvariable=Gameboard_Text[2], command=lambda:[Update_Grid(3), Check_Win(), AI_Turn()])
+    font=Text_Font, textvariable=Gameboard_Text[2], command=lambda:[Update_Grid(3), Check_Win()])
     North_East.place(relx="0.6663", relwidth="0.3335", relheight="0.33")
 
     West = HoverButton(Gameboard, bg="dark red", bd="2", fg="black", activebackground="red", activeforeground="black",
-    font=Text_Font, textvariable=Gameboard_Text[3], command=lambda:[Update_Grid(4), Check_Win(), AI_Turn()])
+    font=Text_Font, textvariable=Gameboard_Text[3], command=lambda:[Update_Grid(4), Check_Win()])
     West.place(rely="0.33", relwidth="0.333", relheight="0.33")
 
     Center = HoverButton(Gameboard, bg="dark red", bd="2", fg="black", activebackground="red", activeforeground="black",
-    font=Text_Font, textvariable=Gameboard_Text[4], command=lambda:[Update_Grid(5), Check_Win(), AI_Turn()])
+    font=Text_Font, textvariable=Gameboard_Text[4], command=lambda:[Update_Grid(5), Check_Win()])
     Center.place(relx="0.333", rely="0.33", relwidth="0.333", relheight="0.33")
 
     East = HoverButton(Gameboard, bg="dark red", bd="2", fg="black", activebackground="red", activeforeground="black",
-    font=Text_Font, textvariable=Gameboard_Text[5], command=lambda:[Update_Grid(6), Check_Win(), AI_Turn()])
+    font=Text_Font, textvariable=Gameboard_Text[5], command=lambda:[Update_Grid(6), Check_Win()])
     East.place(relx="0.6663", rely="0.33", relwidth="0.3335", relheight="0.33")
 
     South_West = HoverButton(Gameboard, bg="dark red", bd="2", fg="black", activebackground="red", activeforeground="black",
-    font=Text_Font, textvariable=Gameboard_Text[6], command=lambda:[Update_Grid(7), Check_Win(), AI_Turn()])
+    font=Text_Font, textvariable=Gameboard_Text[6], command=lambda:[Update_Grid(7), Check_Win()])
     South_West.place(rely="0.66", relwidth="0.333", relheight="0.33")
 
     South = HoverButton(Gameboard, bg="dark red", bd="2", fg="black", activebackground="red", activeforeground="black",
-    font=Text_Font, textvariable=Gameboard_Text[7], command=lambda:[Update_Grid(8), Check_Win(), AI_Turn()])
+    font=Text_Font, textvariable=Gameboard_Text[7], command=lambda:[Update_Grid(8), Check_Win()])
     South.place(relx="0.333", rely="0.66", relwidth="0.333", relheight="0.33")
 
     South_East = HoverButton(Gameboard, bg="dark red", bd="2", fg="black", activebackground="red", activeforeground="black",
-    font=Text_Font, textvariable=Gameboard_Text[8], command=lambda:[Update_Grid(9), Check_Win(), AI_Turn()])
+    font=Text_Font, textvariable=Gameboard_Text[8], command=lambda:[Update_Grid(9), Check_Win()])
     South_East.place(relx="0.6663", rely="0.66", relwidth="0.3335", relheight="0.33")
 
     Reset_Button = HoverButton(Reset, bg="black", font=Text_Font, text="Reset Game", fg="white", activebackground="red", activeforeground="white",
@@ -351,11 +354,15 @@ def Update_Grid(arg):
 ### Resets the gameboard and the turn tracker
 def Reset_Game():
 
-    sound.PlaySound("Gong.wav", sound.SND_ASYNC | sound.SND_NOSTOP)
+    global Game_Over
+
+    sound.PlaySound("Gong.wav", 1)
 
     Turn_Tracker.set("X's Turn")
     for var in Gameboard_Text:
         var.set("")
+
+    Game_Over = False
 
 ### Pop up window that prompts the user to select either singleplayer or multiplayer
 def Choose_Mode():
@@ -473,40 +480,58 @@ def AI_Turn():
 ### Checks if someone has won the game
 def Check_Win():
 
+    global Game_Over
+
     # All possible combinations of X winning
     if Gameboard_Text[0].get() == "X" and Gameboard_Text[1].get() == "X" and Gameboard_Text[2].get() == "X":
+        Game_Over = True
         Win_Message(1)
     elif Gameboard_Text[3].get() == "X" and Gameboard_Text[4].get() == "X" and Gameboard_Text[5].get() == "X":
+        Game_Over = True
         Win_Message(1)
     elif Gameboard_Text[6].get() == "X" and Gameboard_Text[7].get() == "X" and Gameboard_Text[8].get() == "X":
+        Game_Over = True
         Win_Message(1)
     elif Gameboard_Text[0].get() == "X" and Gameboard_Text[3].get() == "X" and Gameboard_Text[6].get() == "X":
+        Game_Over = True
         Win_Message(1)
     elif Gameboard_Text[1].get() == "X" and Gameboard_Text[4].get() == "X" and Gameboard_Text[7].get() == "X":
+        Game_Over = True
         Win_Message(1)
     elif Gameboard_Text[2].get() == "X" and Gameboard_Text[5].get() == "X" and Gameboard_Text[8].get() == "X":
+        Game_Over = True
         Win_Message(1)
     elif Gameboard_Text[0].get() == "X" and Gameboard_Text[4].get() == "X" and Gameboard_Text[8].get() == "X":
+        Game_Over = True
         Win_Message(1)
     elif Gameboard_Text[2].get() == "X" and Gameboard_Text[4].get() == "X" and Gameboard_Text[6].get() == "X":
+        Game_Over = True
         Win_Message(1)
 
     # All possible combinations of O winning
     if Gameboard_Text[0].get() == "O" and Gameboard_Text[1].get() == "O" and Gameboard_Text[2].get() == "O":
+        Game_Over = True
         Win_Message(2)
     elif Gameboard_Text[3].get() == "O" and Gameboard_Text[4].get() == "O" and Gameboard_Text[5].get() == "O":
+        Game_Over = True
         Win_Message(2)
     elif Gameboard_Text[6].get() == "O" and Gameboard_Text[7].get() == "O" and Gameboard_Text[8].get() == "O":
+        Game_Over = True
         Win_Message(2)
     elif Gameboard_Text[0].get() == "O" and Gameboard_Text[3].get() == "O" and Gameboard_Text[6].get() == "O":
+        Game_Over = True
         Win_Message(2)
     elif Gameboard_Text[1].get() == "O" and Gameboard_Text[4].get() == "O" and Gameboard_Text[7].get() == "O":
+        Game_Over = True
         Win_Message(2)
     elif Gameboard_Text[2].get() == "O" and Gameboard_Text[5].get() == "O" and Gameboard_Text[8].get() == "O":
+        Game_Over = True
         Win_Message(2)
     elif Gameboard_Text[0].get() == "O" and Gameboard_Text[4].get() == "O" and Gameboard_Text[8].get() == "O":
+        Game_Over = True
         Win_Message(2)
     elif Gameboard_Text[2].get() == "O" and Gameboard_Text[4].get() == "O" and Gameboard_Text[6].get() == "O":
+        Game_Over = True
         Win_Message(2)
 
     # Executes if there is a tie
@@ -521,24 +546,27 @@ def Check_Win():
         Gameboard_Text[7].get() != "" and
         Gameboard_Text[8].get() != ""
        ):
+        Game_Over = True
+        Win_Message(3)
 
-       Win_Message(3)
+    # Prevents a recursion error when the user quits the game
+    if Game_Over == False:
+        AI_Turn()
 
 ### Displays a message congratulating the winner and asking the user if they would like to play again
 def Win_Message(arg):
 
     global Win_Box
 
-    # TODO: Add sound effects for the different players winning
     if arg == 1:
+        sound.PlaySound("Kung Fu Yell.wav", 1)
         messagebox.showinfo(message="X's Win!!!")
-        sound.PlaySound("KungFuYell.wav", 1)
     elif arg == 2:
+        sound.PlaySound("Karate Yell.wav", 1)
         messagebox.showinfo(message="O's Win!!!")
-        sound.PlaySound("KarateYell.wav", 1)
     elif arg == 3:
-        messagebox.showinfo(message="Cat Wins!!!")
         sound.PlaySound("Cat Scream.wav", 1)
+        messagebox.showinfo(message="Cat Wins!!!")
 
     Win_Box = tk.Tk()
     Win_Box.title("GAME OVER")
@@ -571,7 +599,7 @@ Active_GUI() # Initiating the active GUI elements
 
 Mode.lift()
 
-sound.PlaySound("Gong.wav", sound.SND_ASYNC | sound.SND_NOSTOP)
+sound.PlaySound("Gong.wav", 1)
 
 Mode.destroy() # Closes the select a mode window
 
